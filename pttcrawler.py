@@ -10,6 +10,7 @@ try:
 except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen
+    from urllib2 import Request
 import re
 import sys
 import json
@@ -123,9 +124,13 @@ def parse(link, article_id, board):
     title = ''
     date = ''
     if metas:
+        add_row = 0
+        #有可能有白癡寫錯格式 這裡的情況是判斷是否一二行相同(發現這行是因為發現時間的地方有輸錯)
+        if metas[0].select('span.article-meta-value')[0].string in metas[1].select('span.article-meta-value')[0].string:
+             add_row = 1
         author = metas[0].select('span.article-meta-value')[0].string if metas[0].select('span.article-meta-value')[0] else author
-        title = metas[1].select('span.article-meta-value')[0].string if metas[1].select('span.article-meta-value')[0] else title
-        date = metas[2].select('span.article-meta-value')[0].string if metas[2].select('span.article-meta-value')[0] else date
+        title = metas[add_row + 1].select('span.article-meta-value')[0].string if metas[add_row + 1].select('span.article-meta-value')[0] else title
+        date = metas[add_row + 2].select('span.article-meta-value')[0].string if metas[add_row + 2].select('span.article-meta-value')[0] else date
         # remove meta nodes
         for meta in metas:
             meta.extract()
@@ -201,7 +206,15 @@ def parse(link, article_id, board):
     return json.dumps(data, indent=4, sort_keys=True, ensure_ascii=True)
 
 def getLastPage(board):
-    content = urlopen('https://www.ptt.cc/bbs/' + board + '/index.html').read().decode('utf-8')
+    site = 'https://www.ptt.cc/bbs/' + board + '/index.html'
+    hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+       'Accept-Encoding': 'none',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Connection': 'keep-alive'}
+    req = Request(site, headers = hdr)
+    content = urlopen(req).read().decode('utf-8')
     first_page = re.search(r'href="/bbs/' + board + '/index(\d+).html">&lsaquo;', content).group(1)
     return int(first_page) + 1
 

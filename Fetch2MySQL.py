@@ -10,15 +10,13 @@ from shutil import copyfile
 import Config
 
 
-db = pymysql.connect(host=Config.DB_HOST, user=Config.DB_USER,
-        port=Config.DB_PORT, password=Config.DB_PASSWD,
-        db=Config.DB_NAME, charset='utf8')
 
-cursor = db.cursor()
+
+
 
 sql = "INSERT INTO ptt_articles(title, author, board, content, date, ip, article_uuid) VALUES (%s, %s, %s, %s, %s, %s, %s)"
 sql_print = "INSERT INTO ptt_articles(title) VALUES(%s)"
-PTT_BOARD = 'part-time'
+PTT_BOARD = 'job'
 BACKUP_PATH = Config.BACKUP_PATH
 TMP_PATH = Config.TMP_PATH
 
@@ -70,23 +68,33 @@ def doCrawler(pageStart, pageEnd):
                 os.remove(fullPath)
 
 def import2SQL(checkExsisted):
+        db = pymysql.connect(host=Config.DB_HOST, user=Config.DB_USER,
+                port=Config.DB_PORT, password=Config.DB_PASSWD,
+                db=Config.DB_NAME, charset='utf8')
+
+        cursor = db.cursor()
         regex = re.compile(r".+_[0-9]+_parsed\.json")
         jsonFiles = [f for f in os.listdir(TMP_PATH) if isfile(join(TMP_PATH, f)) and regex.match(f)]
         regex = re.compile(r"[0-9]+")
+
+
         #tmpCollectionName = DbHelper.COLLECTION + "_tmp"
 
         for filename in jsonFiles:
                 fullPath = join(TMP_PATH, filename)
                 temp = json.load(open(fullPath))
                 for data in temp:
-                    cursor.execute(sql, (data['article_title'],
-                         data['author'],
-                         data['board'],
-                         data['content'],
-                         format_date(data['date']),
-                         data['ip'],
-                         data['article_id'] ))
-                    print sql_print % (data['article_title'])
+                    if 'error' in data:
+                        print 'error'
+                    else:
+                        cursor.execute(sql, (data['article_title'],
+                             data['author'],
+                             data['board'],
+                             data['content'],
+                             format_date(data['date']),
+                             data['ip'],
+                             data['article_id'] ))
+                        print sql_print % (data['article_title'])
                 os.remove(fullPath)
         db.commit()
 
