@@ -147,8 +147,8 @@ def parse(link, article_id, board):
         ip = re.search('[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*', ip).group()
     except:
         ip = "None"
-
-    """ # 移除 '※ 發信站:' (starts with u'\u203b'), '◆ From:' (starts with u'\u25c6'), 空行及多餘空白
+    """
+    # 移除 '※ 發信站:' (starts with u'\u203b'), '◆ From:' (starts with u'\u25c6'), 空行及多餘空白
     # 保留英數字, 中文及中文標點, 網址, 部分特殊符號
     filtered = [ v for v in main_content.stripped_strings if v[0] not in [u'※', u'◆'] and v[:2] not in [u'--'] ]
     expr = re.compile(u(r'[^\u4e00-\u9fa5\u3002\uff1b\uff0c\uff1a\u201c\u201d\uff08\uff09\u3001\uff1f\u300a\u300b\s\w:/-_.?~%()]'))
@@ -158,10 +158,27 @@ def parse(link, article_id, board):
     filtered = [_f for _f in filtered if _f]  # remove empty strings
     filtered = [x for x in filtered if article_id not in x]  # remove last line containing the url of the article
     content = ' '.join(filtered)
-    content = re.sub(r'(\s)+', ' ', content)"""
-
+    content = re.sub(r'(\s)+', ' ', content)
+    """
     content = ''.join(main_content.stripped_strings)
     content = re.sub(r'([\s\n])+', ' ', content)
+
+    #----8/22 coding---
+    emails = main_content.find_all("a", class_ = '__cf_email__')
+    #print len(emails)
+    #tmp = '  ||'
+    for email in emails:
+        #tmp += deCFEmail(email["data-cfemail"]) + '||  '
+        regResult = re.findall('\[ema.+.tected\]', content)
+        if len(regResult) > 1:
+            tmp = re.find('\[ema.+.tected\]', content)
+            content = re.sub('\[ema.+.tected\]', deCFEmail(email['data-cfemail']), content[:tmp.end()])
+        else:
+            content = re.sub('\[ema.+.tected\]', deCFEmail(email['data-cfemail']), content)
+    #content += str(len(regResult)) + deCFEmail(email['data-cfemail'])
+    #------------------
+
+
     # print 'content', content
 
     # push messages
@@ -221,6 +238,12 @@ def getLastPage(board):
 def store(filename, data, mode):
     with codecs.open(filename, mode, encoding='utf-8') as f:
         f.write(data)
+
+def deCFEmail(decodedEmail):
+    r = int(decodedEmail[:2],16)
+    EMAIL = ''.join([chr(int(decodedEmail[i:i+2], 16) ^ r) for i in range(2, len(decodedEmail), 2)])
+    #print EMAIL.encode('utf-8')
+    return EMAIL
 
 if __name__ == '__main__':
     crawler()

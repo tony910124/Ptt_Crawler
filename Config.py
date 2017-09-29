@@ -12,3 +12,6 @@ DB = 'workfair-jobrobot'
 COLLECTION = 'ptt_part_times'
 BACKUP_PATH = '%s/RawData' % scriptPath
 TMP_PATH = '%s/tmp' % scriptPath
+
+
+#S03_AnalyisisContent
