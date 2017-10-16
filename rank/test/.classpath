@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/java-json.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/aopalliance-repackaged-2.5.0-b32.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/hk2-api-2.5.0-b32.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/hk2-locator-2.5.0-b32.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/hk2-utils-2.5.0-b32.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/javassist-3.20.0-GA.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/javax.annotation-api-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/javax.inject-2.5.0-b32.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/javax.json-api-1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/javax.servlet-api-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/javax.ws.rs-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jaxb-api-2.2.7.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jersey-client.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jersey-common.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jersey-container-servlet-core.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jersey-container-servlet.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jersey-guava-2.25.1.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jersey-media-jaxb.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/jersey-server.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/org.osgi.core-4.2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/persistence-api-1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="/Users/sallychang/Documents/jarFile/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
